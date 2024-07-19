@@ -1,4 +1,4 @@
-import { BodyResponseGetAllBooks, BodyRequestCreateBook, BodyResponseCreateBook } from "../models/books.model"; // se importa la interface correspondiente a la respuesta para obtener los libros almacenados en la API.
+import { BodyResponseDeleteBook,BodyResponseGetAllBooks,BodyResponseGetById, BodyRequestCreateBook, BodyResponseCreateBook,BodyResponseUpdateBook,BodyRequestUpdateBook } from "../models/books.model"; // se importa la interface correspondiente a la respuesta para obtener los libros almacenados en la API.
 
 export class BooksController { 
 
@@ -66,4 +66,86 @@ export class BooksController {
         return bodyResponseCreateBook;
         
     }
+
+    async  getById(id : string, token:string) :Promise<BodyResponseGetById> {
+        const headers : Record <string, string> = { // headers correspondientes a la petición 'GET' para obtener un libro por su id.
+            'accept' : '*/*',
+            'Authorization' : `Bearer ${token}`
+        }
+
+        const requestOptions : RequestInit = {
+            method : 'GET',
+            headers : headers,
+        }
+
+        const response : Response = await fetch(`${this.domain}/api/v1/books/${id}`, requestOptions);
+
+        if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
+            console.log(response);
+            throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
+        }
+
+        const BodyResponseGetById : BodyResponseGetById = await response.json();
+
+        return BodyResponseGetById;
+    }
+
+    async update( idCache:string,title : HTMLInputElement, author : HTMLInputElement, description : HTMLInputElement, summary : HTMLInputElement, publicationDate : HTMLInputElement, token : string) : Promise <BodyResponseUpdateBook>{
+
+
+
+        const updateBook: BodyRequestUpdateBook = { // body (objeto) con la información necesaria para crear un nuevo libro.
+            title : title.value,
+            author : author.value,
+            description : description.value,
+            summary : summary.value,
+            publicationDate : publicationDate.value
+        };
+        
+        const headers : Record <string, string> = { // headers correspondientes a la petición 'POST' para crear los libros.
+            'accept' : '*/*',
+            'Content-Type' : 'application.json',
+            'Authorization' : `Bearer ${token}`
+        }
+
+        const requestOptions : RequestInit = {
+            method : 'POST',
+            headers : headers,
+            body : JSON.stringify(updateBook) // 'body : JSON.stringify(newBook)' envía el objeto con la información del nuevo libro.
+        }
+
+        const response : Response = await fetch(`${this.domain}/api/v1/books/${idCache}`, requestOptions);
+
+        if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
+            console.log(response);
+            throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
+        }
+        const bodyResponseUpdateBook : BodyResponseUpdateBook = await response.json();
+        return bodyResponseUpdateBook;
+    }
+
+    async delete(id : string, token : string):Promise<BodyResponseDeleteBook>{
+
+        const headers : Record <string, string> = { // headers correspondientes a la petición 'POST' para crear los libros.
+            'accept' : '*/*',
+            'Authorization' : `Bearer ${token}`
+        }
+
+        const requestOptions : RequestInit = {
+            method : 'DELETE',
+            headers : headers,
+        }
+        const response : Response = await fetch(`${this.domain}/api/v1/books/${id}`, requestOptions);
+        if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
+            console.log(response);
+            throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
+        }
+        const bodyResponseDeleteBook : BodyResponseDeleteBook = await response.json();
+        return bodyResponseDeleteBook;
+    }
+    
+    
+    
+
+
 }

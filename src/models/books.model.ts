@@ -21,7 +21,7 @@ export interface Datum { // interface para el objeto que continene la informaci�
     files:           any[];
 }
 
-export interface BodyRequestCreateBook { // interface con la informaci처n para realizar la petici처n para crear un libro. 
+export interface BodyRequestCreateBook{ // interface con la informaci처n para realizar la petici처n para crear un libro. 
     title : string,
     author : string,
     description : string,
@@ -32,4 +32,31 @@ export interface BodyRequestCreateBook { // interface con la informaci처n para r
 export interface BodyResponseCreateBook { // interface para obetener la informaci처n del libro que fue creado.
     message : string,
     data : Record <string, string>
+}
+
+
+export interface BodyResponseGetById {
+menssage : string
+data :Record <string, string>
+
+} 
+
+export interface BodyRequestUpdateBook {
+    title : string,
+    author : string,
+    description : string,
+    summary : string,
+    publicationDate : string
+}
+
+
+export interface BodyResponseUpdateBook {
+    message : string,
+    data : Record <string, string>
+}
+
+
+export interface BodyResponseDeleteBook {
+    message : string,
+    data : null
 }
