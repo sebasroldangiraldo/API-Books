@@ -38,3 +38,22 @@ export interface BodyResponseGetBookById { // interface para obtener un libro po
     message : string,
     data : Record <string, string>
 }
+
+export interface BodyRequestUpdateBook { // interface con la información para realizar la petición para crear un libro.
+    title : string,
+    author : string,
+    description : string,
+    summary : string,
+    publicationDate : string 
+}
+
+export interface BodyResponseUpdateBook { // interface para obetener la información del libro que fue actualizado.
+    message : string,
+    data : Record <string, string>
+}
+
+export interface BodyResponseDeleteBook { // interface para obetener la información del libro que fue eliminado.
+    message : string,
+    data : null 
+}
+

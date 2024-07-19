@@ -19,15 +19,15 @@ export class BooksController {
             };
             const requestOptions = {
                 method: 'GET',
-                headers: headers,
+                headers: headers
             };
             const response = yield fetch(`${this.domain}/api/v1/books?limit=${limit}&page=${page}`, requestOptions); // '?limit=${limit}&page=${page}' corresponden a la sintaxis para escribir los query params de la paginación. ? -> query param & -> para añadir un nuevo query param. 
             if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
                 console.log(response);
                 throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
             }
-            const bodyResponseGetAllBooks = yield response.json(); // se transforma la respuesta obtenida a código, implementando la interface 'BodyResponseGetAllBooks'.
-            return bodyResponseGetAllBooks;
+            const responseBodyGetAllBooks = yield response.json(); // se transforma la respuesta obtenida a código, implementando la interface 'BodyResponseGetAllBooks'.
+            return responseBodyGetAllBooks;
         });
     }
     createBook(title, author, description, summary, publicationDate, token) {
@@ -54,8 +54,74 @@ export class BooksController {
                 console.log(response);
                 throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
             }
-            const bodyResponseCreateBook = yield response.json();
-            return bodyResponseCreateBook;
+            const responseBodyCreateBook = yield response.json();
+            return responseBodyCreateBook;
+        });
+    }
+    getBookById(id, token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const headers = {
+                'accept': '*/*',
+                'Authorization': `Bearer ${token}`
+            };
+            const requestOptions = {
+                method: 'GET',
+                headers: headers
+            };
+            const response = yield fetch(`${this.domain}/api/v1/books/${id}`, requestOptions);
+            if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
+                console.log(response);
+                throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
+            }
+            const responseBodyGetBookById = yield response.json();
+            return responseBodyGetBookById;
+        });
+    }
+    updateBook(idCatche, title, author, description, summary, publicationDate, token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const updateBook = {
+                title: title.value,
+                author: author.value,
+                description: description.value,
+                summary: summary.value,
+                publicationDate: publicationDate.value
+            };
+            const headers = {
+                'accept': '*/*',
+                'Content-Type': 'application.json',
+                'Authorization': `Bearer ${token}`
+            };
+            const requestOptions = {
+                method: 'PATCH',
+                headers: headers,
+                body: JSON.stringify(updateBook) // 'body : JSON.stringify(newBook)' envía el objeto con la información del libro actualizado.
+            };
+            const response = yield fetch(`${this.domain}/api/v1/books/${idCatche}`, requestOptions);
+            if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
+                console.log(response);
+                throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
+            }
+            const responseBodyUpdateBook = yield response.json();
+            return responseBodyUpdateBook;
+        });
+    }
+    deleteBook(id, token) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const headers = {
+                'accept': '*/*',
+                'Authorization': `Bearer ${token}`
+            };
+            const requestOptions = {
+                method: 'DELETE',
+                headers: headers
+            };
+            const response = yield fetch(`${this.domain}/api/v1/books/${id}`, requestOptions);
+            if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
+                console.log(response);
+                throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
+            }
+            const responseBodyDeleteBook = yield response.json();
+            return responseBodyDeleteBook;
         });
     }
 }
