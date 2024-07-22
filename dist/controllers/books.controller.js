@@ -40,9 +40,9 @@ export class BooksController {
                 publicationDate: publicationDate.value
             };
             const headers = {
-                'accept': '*/*',
-                'Content-Type': 'application.json',
-                'Authorization': `Bearer ${token}`
+                "accept": "*/*",
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
             };
             const requestOptions = {
                 method: 'POST',
@@ -52,7 +52,7 @@ export class BooksController {
             const response = yield fetch(`${this.domain}/api/v1/books`, requestOptions);
             if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
                 console.log(response);
-                throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
+                throw new Error(`error al obtener libros ${response.status} ${response.statusText}`);
             }
             const responseBodyCreateBook = yield response.json();
             return responseBodyCreateBook;
@@ -88,7 +88,7 @@ export class BooksController {
             };
             const headers = {
                 'accept': '*/*',
-                'Content-Type': 'application.json',
+                'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             };
             const requestOptions = {

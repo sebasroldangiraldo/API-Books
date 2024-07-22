@@ -43,9 +43,9 @@ export class BooksController {
         }
         
         const headers : Record <string, string> = { // headers correspondientes a la petición 'POST' para crear los libros.
-            'accept' : '*/*',
-            'Content-Type' : 'application.json',
-            'Authorization' : `Bearer ${token}`
+            "accept" : "*/*",
+            "Authorization" : `Bearer ${token}`,
+            "Content-Type" : "application/json"
         }
 
         const requestOptions : RequestInit = {
@@ -58,7 +58,7 @@ export class BooksController {
 
         if (!response.ok) { // manejo de error en caso de no contar con una conexión exitosa. 
             console.log(response);
-            throw new Error(`error al obtener libros: ${response.status} : ${response.statusText}`);
+            throw new Error(`error al obtener libros ${response.status} ${response.statusText}`);
         }
 
         const responseBodyCreateBook : BodyResponseCreateBook = await response.json();
@@ -102,7 +102,7 @@ export class BooksController {
 
         const headers : Record <string, string> = { // headers correspondientes a la petición 'PATCH' para crear los libros.
             'accept' : '*/*',
-            'Content-Type' : 'application.json',
+            'Content-Type' : 'application/json',
             'Authorization' : `Bearer ${token}`
         }
 
